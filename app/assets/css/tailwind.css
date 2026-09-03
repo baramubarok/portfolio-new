@@ -1,0 +1,497 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0B0E14;
+  --amber: #FFB454;
+  --teal: #3DDC97;
+  --line: rgba(255,255,255,0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ink);
+  color: #ECEDF1;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--amber);
+  color: #0B0E14;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2A3140;
+  border-radius: 8px;
+}
+
+.grid-texture {
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 100% 100% at 33% 25%, black 60%, transparent 100%);
+}
+
+.path-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  letter-spacing: .02em;
+  color: var(--teal);
+}
+
+.path-label::before {
+  content: '~/';
+  color: #4A5568;
+}
+
+.typed-cursor {
+  display: inline-block;
+  width: 2px;
+  margin-left: 2px;
+  background: var(--amber);
+  animation: blink 0.9s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(2px);
+  background: radial-gradient(circle at 32% 28%, #3A4253, #11151D 72%);
+  box-shadow: inset -12px -14px 30px rgba(0,0,0,.55), inset 10px 10px 24px rgba(255,255,255,.03);
+}
+
+.hero-card {
+  box-shadow: 0 30px 80px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.06);
+}
+
+.project-visual {
+  position: relative;
+  overflow: hidden;
+  background-color: #171C26;
+  background-image: linear-gradient(135deg, rgba(255,255,255,.09), transparent 55%), radial-gradient(circle at 78% 18%, rgba(255,180,84,.3), transparent 28%);
+}
+
+.project-visual > img {
+  z-index: 0;
+}
+
+.project-visual > :not(img) {
+  position: relative;
+  z-index: 10;
+}
+
+.project-visual::before {
+  content: '';
+  position: absolute;
+  width: 12rem;
+  height: 12rem;
+  right: -3rem;
+  top: -3rem;
+  border: 1px solid rgba(61,220,151,.35);
+  border-radius: 9999px;
+  box-shadow: 0 0 0 1rem rgba(61,220,151,.04), 0 0 0 2rem rgba(61,220,151,.03);
+}
+
+.project-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11,14,20,.8), transparent 65%);
+  pointer-events: none;
+}
+
+.project-visual-headway-platform { background-color: #172A2B; background-image: linear-gradient(135deg, rgba(61,220,151,.22), transparent 55%), radial-gradient(circle at 20% 20%, rgba(255,180,84,.25), transparent 28%); }
+.project-visual-kids-academy { background-color: #27302A; background-image: linear-gradient(135deg, rgba(61,220,151,.28), transparent 55%), radial-gradient(circle at 80% 20%, rgba(255,180,84,.32), transparent 30%); }
+.project-visual-aspriku { background-color: #28221B; background-image: linear-gradient(135deg, rgba(255,180,84,.32), transparent 55%), radial-gradient(circle at 75% 22%, rgba(61,220,151,.24), transparent 30%); }
+.project-visual-eiger-adventure { background-color: #1D2B28; }
+.project-visual-moduit { background-color: #202331; }
+.project-visual-emina-colab { background-color: #2A202D; }
+
+.nav-pill a {
+  position: relative;
+  color: #C7CBD4;
+}
+
+.nav-pill a.active, .nav-pill a:hover {
+  color: #ECEDF1;
+}
+
+.nav-pill {
+  scrollbar-width: none;
+}
+
+.nav-pill::-webkit-scrollbar {
+  display: none;
+}
+
+.btn-amber {
+  background: var(--amber);
+  color: #1A1200;
+}
+
+.btn-amber:hover {
+  filter: brightness(1.06);
+}
+
+.skill-track {
+  will-change: transform;
+}
+
+.skill-mobile-intro {
+  display: none;
+}
+
+.skill-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .85rem;
+}
+
+.skill-progress {
+  position: relative;
+  display: grid;
+  width: 5rem;
+  height: 5rem;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: conic-gradient(from -90deg, var(--amber), var(--teal) var(--skill-level), rgba(255,255,255,.08) var(--skill-level) 100%);
+}
+
+.skill-progress::after {
+  content: '';
+  position: absolute;
+  inset: .35rem;
+  border-radius: inherit;
+  background: var(--inkAlt, #11151D);
+}
+
+.skill-progress span {
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-line {
+  background: linear-gradient(to bottom, var(--teal), var(--line) 85%);
+}
+
+/* stage layers for the unified hero->project pin */
+.stage-copy {
+  position: absolute;
+  width: 46%;
+  z-index: 20;
+}
+
+.project-expand {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 20;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 9999px;
+  background: rgba(11,14,20,.55);
+  color: #ECEDF1;
+  font-size: 1.3rem;
+  line-height: 1;
+  backdrop-filter: blur(8px);
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.project-expand:hover, .project-expand:focus-visible {
+  background: var(--amber);
+  color: #1A1200;
+  transform: scale(1.06);
+}
+
+.project-lightbox {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #ECEDF1;
+}
+
+.project-lightbox::backdrop {
+  background: rgba(4,6,10,.86);
+  backdrop-filter: blur(10px);
+}
+
+.project-lightbox-backdrop {
+  display: grid;
+  width: 100%;
+  min-height: 100%;
+  padding: clamp(1.25rem, 4vw, 4rem);
+  place-items: center;
+}
+
+.project-lightbox-content {
+  width: min(1100px, 100%);
+  max-height: calc(100svh - 2rem);
+  overflow: auto;
+  padding: clamp(1rem, 3vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: #11151D;
+  box-shadow: 0 30px 100px rgba(0,0,0,.6);
+}
+
+.project-lightbox-close {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  color: #ECEDF1;
+  font-size: 1.8rem;
+  line-height: 1;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.project-lightbox-close:hover, .project-lightbox-close:focus-visible {
+  background: var(--amber);
+  color: #1A1200;
+}
+
+.project-lightbox-image {
+  display: block;
+  width: 100%;
+  max-height: calc(100svh - 11rem);
+  margin-top: 1.5rem;
+  border-radius: 14px;
+  object-fit: contain;
+}
+
+.mobile-hero {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .desktop-hero {
+    display: none;
+  }
+
+  .mobile-hero {
+    display: block;
+    padding: 6.5rem 1.5rem 4rem;
+  }
+
+  .mobile-hero-intro {
+    max-width: 34rem;
+    margin: 0 auto;
+  }
+
+  .mobile-hero-intro h1 {
+    font-size: clamp(3.25rem, 15vw, 4.5rem);
+  }
+
+  .mobile-project-list {
+    max-width: 34rem;
+    margin: 5rem auto 0;
+  }
+
+  .mobile-project {
+    opacity: 1;
+    transform: none;
+  }
+
+  .mobile-motion-ready .mobile-project {
+    opacity: 0;
+    transition: opacity 650ms ease, transform 650ms ease;
+    will-change: opacity, transform;
+  }
+
+  .mobile-motion-ready .mobile-project-from-right {
+    transform: translateX(2.5rem);
+  }
+
+  .mobile-motion-ready .mobile-project-from-left {
+    transform: translateX(-2.5rem);
+  }
+
+  .mobile-motion-ready .mobile-project.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .mobile-project + .mobile-project {
+    margin-top: 5.5rem;
+  }
+
+  .mobile-project-visual {
+    height: 21rem;
+    transform: rotate(2deg);
+  }
+
+  .mobile-project-visual .project-expand {
+    display: grid;
+  }
+
+  .mobile-project-copy {
+    padding: 2.75rem 0 0;
+  }
+
+  .mobile-project-copy h2 {
+    font-size: clamp(1.75rem, 8vw, 2.25rem);
+  }
+
+  #skillSticky {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    display: block;
+    padding: 5rem 0 4rem;
+  }
+
+  .skill-mobile-intro {
+    display: block;
+    padding: 0 1.5rem 3rem;
+  }
+
+  .skill-mobile-intro h2 {
+    max-width: 34rem;
+  }
+
+  .skill-intro-slide {
+    display: none;
+  }
+
+  #skillTrack {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    transform: none !important;
+  }
+
+  #skillTrack::-webkit-scrollbar {
+    display: none;
+  }
+
+  #skillTrack > div {
+    width: min(88vw, 25rem);
+    height: auto;
+    min-height: 0;
+    padding: 0 1.5rem;
+    scroll-snap-align: start;
+    flex: 0 0 min(88vw, 25rem);
+  }
+
+  #skillTrack .skill-group-slide h3 {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+  }
+
+  #skillTrack .skill-group-slide .skill-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .75rem;
+  }
+
+  #skillTrack .skill-group-slide .skill-card {
+    min-width: 0;
+    padding: 1rem .65rem;
+  }
+
+  #skillTrack .skill-group-slide .skill-progress {
+    width: 4.25rem;
+    height: 4.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-project-visual .project-expand {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .mobile-motion-ready .mobile-project,
+  .mobile-motion-ready .mobile-project.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 768px) {
+  #pinStage {
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+    align-items: flex-start;
+    padding: 6rem 0;
+  }
+
+  #pinStage > div {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #pinStage #heroCopy,
+  #pinStage #heroImage,
+  #pinStage #p1Copy,
+  #pinStage #p2Copy,
+  #pinStage #p3Copy {
+    position: relative;
+    inset: auto !important;
+    transform: none !important;
+    width: 100% !important;
+  }
+
+  #pinStage #heroCopy {
+    order: 1;
+  }
+
+  #pinStage #heroImage {
+    order: 2;
+    width: min(20rem, 75vw) !important;
+    height: 20rem !important;
+    margin-top: 3rem;
+  }
+
+  #pinStage #p1Copy,
+  #pinStage #p2Copy,
+  #pinStage #p3Copy {
+    order: 3;
+    margin-top: 4rem;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+}
