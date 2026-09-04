@@ -126,6 +126,14 @@ let ctx: gsap.Context | null = null
 onMounted(() => {
   typeLoop()
 
+  // Load every featured image before the pinned sequence needs it. Without this,
+  // switching the same <img> element can briefly show the previous project while
+  // the next image is fetched or decoded, especially when scrolling quickly.
+  featuredProjects.forEach(project => {
+    const image = new Image()
+    image.src = project.image
+  })
+
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   if (prefersReduced) return
 
@@ -139,6 +147,35 @@ onMounted(() => {
     const LEFT = { left: '0%', right: 'auto', width: '46%' }
     const RIGHT = { left: '54%', right: 'auto', width: '46%' }
     const BOUNCE = 'back.out(1.4)'
+    let currentStageProject = -1
+    let stagePathVisible = false
+    let timeline: gsap.core.Timeline | null = null
+
+    const syncStageProject = (time: number) => {
+      // These boundaries are the starts of the image transitions. Deriving the
+      // active image from position keeps it correct when the timeline reverses
+      // instead of relying on callbacks that only describe forward playback.
+      const nextStageProject = time >= 4.3 ? 2 : time >= 2.6 ? 1 : 0
+      const shouldShowPath = time >= 0.9
+
+      if (nextStageProject !== currentStageProject) {
+        currentStageProject = nextStageProject
+
+        const project = featuredProjects[nextStageProject]
+        if (!project) return
+
+        if (stageImg) {
+          stageImg.src = project.image
+          stageImg.alt = `${project.name} project preview`
+        }
+        if (stagePath) stagePath.textContent = `projects/${project.slug}`
+      }
+
+      if (stagePath && shouldShowPath !== stagePathVisible) {
+        stagePathVisible = shouldShowPath
+        gsap.to(stagePath, { autoAlpha: shouldShowPath ? 1 : 0, duration: .2, overwrite: true })
+      }
+    }
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -148,8 +185,14 @@ onMounted(() => {
         scrub: 1,
         pin: '#pinStage',
         anticipatePin: 1,
+        // Use the immediate scroll position rather than the smoothed animation
+        // time so the image never trails behind the user's scroll direction.
+        onUpdate: self => {
+          if (timeline) syncStageProject(self.progress * timeline.duration())
+        },
       }
     })
+    timeline = tl
 
     // phase 0: hero hold
     tl.call(() => { activeDot.value = 0 }, undefined, 0.05)
@@ -157,16 +200,6 @@ onMounted(() => {
     // -> phase 1: image travels to LEFT, hero copy fades out, Headway Platform fades in
     tl.to('#heroCopy', { autoAlpha: 0, x: -40, duration: .6, ease: 'power1.in' }, 0.9)
       .to(heroImage, { ...LEFT, top: '4%', height: '62vh', rotate: 0, duration: 1, ease: BOUNCE }, 0.9)
-      .call(() => {
-        if (stageImg && featuredProjects[0]) {
-          stageImg.src = featuredProjects[0].image
-          stageImg.alt = `${featuredProjects[0].name} project preview`
-        }
-        if (stagePath) {
-          stagePath.textContent = `projects/${featuredProjects[0]?.slug ?? ''}`
-          gsap.to(stagePath, { autoAlpha: 1, duration: .3 })
-        }
-      }, undefined, 1.5)
       .to('#p1Copy', { autoAlpha: 1, x: 0, duration: .6, ease: 'power2.out' }, 1.5)
       .set('#p1Copy', { pointerEvents: 'auto' }, 1.6)
       .call(() => { activeDot.value = 1 }, undefined, 1.7)
@@ -184,13 +217,6 @@ onMounted(() => {
       }
     }, 2.6)
       .to(heroImage, { ...RIGHT, duration: 1, ease: BOUNCE }, 2.6)
-      .call(() => {
-        if (stageImg && featuredProjects[1]) {
-          stageImg.src = featuredProjects[1].image
-          stageImg.alt = `${featuredProjects[1].name} project preview`
-        }
-        if (stagePath) stagePath.textContent = `projects/${featuredProjects[1]?.slug ?? ''}`
-      }, undefined, 3.1)
       .to('#p2Copy', { autoAlpha: 1, x: 0, duration: .6, ease: 'power2.out' }, 3.2)
       .set('#p2Copy', { pointerEvents: 'auto' }, 3.3)
       .call(() => { activeDot.value = 2 }, undefined, 3.4)
@@ -208,13 +234,6 @@ onMounted(() => {
       }
     }, 4.3)
       .to(heroImage, { ...LEFT, duration: 1, ease: BOUNCE }, 4.3)
-      .call(() => {
-        if (stageImg && featuredProjects[2]) {
-          stageImg.src = featuredProjects[2].image
-          stageImg.alt = `${featuredProjects[2].name} project preview`
-        }
-        if (stagePath) stagePath.textContent = `projects/${featuredProjects[2]?.slug ?? ''}`
-      }, undefined, 4.8)
       .to('#p3Copy', { autoAlpha: 1, x: 0, duration: .6, ease: 'power2.out' }, 4.9)
       .set('#p3Copy', { pointerEvents: 'auto' }, 5.0)
       .call(() => { activeDot.value = 3 }, undefined, 5.1)
