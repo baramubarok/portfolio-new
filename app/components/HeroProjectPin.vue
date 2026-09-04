@@ -6,12 +6,10 @@
     <div id="pinStage" class="h-[100svh] w-full overflow-hidden grid-texture flex items-center relative">
       <div class="max-w-7xl mx-auto w-full px-6 md:px-10 relative h-[70vh]">
 
-        <!-- decorative blobs -->
         <div class="blob w-40 h-40 md:w-56 md:h-56" style="left:8%; bottom:6%;"></div>
         <div class="blob w-64 h-64 md:w-80 md:h-80" style="left:26%; bottom:-6%;"></div>
         <div class="blob w-28 h-28 md:w-36 md:h-36" style="right:4%; top:12%;"></div>
 
-        <!-- HERO COPY (phase 0) -->
         <div id="heroCopy" class="stage-copy" style="left:0%; top:50%; transform:translateY(-50%);">
           <p class="path-label mb-4">portfolio --whoami</p>
           <h1 class="font-display font-semibold leading-[0.95] text-cream text-[13vw] md:text-6xl lg:text-7xl">
@@ -31,7 +29,6 @@
           </div>
         </div>
 
-        <!-- FEATURED PROJECT COPY (phases 1–3) -->
         <div
           v-for="(project, index) in featuredProjects"
           :id="`p${index + 1}Copy`"
@@ -51,7 +48,6 @@
           </div>
         </div>
 
-        <!-- THE SINGLE IMAGE ELEMENT — persists across hero + all 3 projects -->
         <div id="heroImage" class="hero-card absolute rounded-[28px] overflow-hidden z-30"
              style="right:2%; left:auto; top:8%; width:min(34vw,340px); height:56vh; transform:rotate(6deg);">
           <img id="stageImg" :src="featuredProjects[0]?.image" :alt="featuredProjects[0] ? `${featuredProjects[0].name} project preview` : 'Project preview'" class="w-full h-full object-cover" />
@@ -59,7 +55,6 @@
           <div id="stagePath" class="path-label absolute bottom-5 left-6 bg-ink/60 backdrop-blur px-3 py-1.5 rounded-full opacity-0">projects/{{ featuredProjects[0]?.slug }}</div>
         </div>
 
-        <!-- social rail -->
         <div class="hidden md:flex flex-col gap-4 absolute right-[-2.5rem] top-1/2 -translate-y-1/2 z-20 text-dim">
           <a href="https://github.com/baramubarok" target="_blank" class="hover:text-amber transition-colors" aria-label="GitHub">GH</a>
           <a href="https://www.linkedin.com/in/bara-mubarok-35a7971a4" target="_blank" class="hover:text-amber transition-colors" aria-label="LinkedIn">IN</a>
